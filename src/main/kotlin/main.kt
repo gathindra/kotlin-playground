@@ -24,7 +24,7 @@ fun main(args: Array<String>) = runBlocking {
             consumeData()
         }
 
-        doSomething()
+        produceData()
     }
 
 }
@@ -33,15 +33,16 @@ suspend fun consumeData() = coroutineScope {
     consumer.collect() {
         println("Consumer received $it ${Date().toString()}")
         if (it == 20) {
+            println("Consumer done!")
             exitProcess(0)
         }
     }
 }
 
-suspend fun doSomething() = coroutineScope {
+suspend fun produceData() = coroutineScope {
     for (i in 1..20) {
         channel.send(i)
-        delay(300)
+        delay(1000L)
     }
-    println("Hello World!")
+    println("Producer done!")
 }
