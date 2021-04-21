@@ -30,7 +30,7 @@ fun main(args: Array<String>) = runBlocking {
 }
 
 suspend fun consumeData() = coroutineScope {
-    consumer.collect() {
+    consumer.collect {
         println("Consumer received $it ${Date().toString()}")
         if (it == 20) {
             println("Consumer done!")
@@ -41,7 +41,7 @@ suspend fun consumeData() = coroutineScope {
 
 suspend fun produceData() = coroutineScope {
     for (i in 1..20) {
-        channel.send(i)
+        delayChannel.send(i)
         delay(1000L)
     }
     println("Producer done!")
